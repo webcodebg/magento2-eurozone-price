@@ -1,6 +1,6 @@
 # Webcode_EurozonePrice
 
-Magento 2: dual EUR/BGN price display for Bulgarian stores. Free, OSL-3.0. Install from repo.webcode.bg/public.
+Dual price display for Bulgarian stores: shows the EUR equivalent next to BGN prices (or the other way round), with a configurable separator and a CLI command that converts catalog prices to EUR.
 
 ## Installation
 
