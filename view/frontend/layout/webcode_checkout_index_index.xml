@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/**
+ * @copyright Copyright © 2024–2026 Webcode (https://webcode.bg/)
+ * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ *
+ * Webcode_Checkout is a custom, RequireJS/KO-free checkout that formats its
+ * dynamic rows outside the three EurozonePrice seams. This handle ships a small
+ * decorator (window.webcodeEurozoneFormat) that its money() helper opts into.
+ * The script goes into the checkout's dedicated bridge-asset slot.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="webcode.checkout.assets">
+            <block class="Magento\Framework\View\Element\Template" name="webcode-eurozone-price-checkout"
+                   template="Webcode_EurozonePrice::webcode-checkout-price.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

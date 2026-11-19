@@ -1,0 +1,93 @@
+<?php
+/**
+ * @copyright Copyright © 2024–2026 Webcode (https://webcode.bg/)
+ * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\Currency;
+use Hyva\Theme\ViewModel\HyvaCsp;
+use Hyva\Theme\ViewModel\StoreConfig;
+use Magento\Framework\Escaper;
+use Webcode\EurozonePrice\Block\Config;
+
+/** @var Escaper $escaper */
+/** @var HyvaCsp $hyvaCsp */
+/** @var ViewModelRegistry $viewModels */
+/** @var Currency $currencyViewModel */
+
+$currencyViewModel = $viewModels->require(Currency::class);
+$storeConfig = $viewModels->require(StoreConfig::class);
+$jsLocale = str_replace('_', '-', $storeConfig->getStoreConfig('general/locale/code'));
+
+$separator = ' ';
+$currencySeparator = $storeConfig->getStoreConfig(Config::CONFIG_PATH_CURRENCY_SEPARATOR);
+if (!empty($currencySeparator)) {
+    $separator .= $currencySeparator . ' ';
+}
+
+$secondCurrencyCode = 'BGN';
+try {
+    $currentCurrencyCode = $currencyViewModel->getCurrentCurrencyCode();
+} catch (Exception $e) {
+    $currentCurrencyCode = $storeConfig->getStoreConfig('currency/options/base');
+}
+
+if ($currentCurrencyCode === 'BGN') {
+    $secondCurrencyCode = 'EUR';
+} elseif ($currentCurrencyCode === 'EUR') {
+    $secondCurrencyCode = 'BGN';
+}
+
+// Стойностите влизат в inline <script> — всичко през escapeJs (курсът/сепараторът
+// идват от admin config, кодът/локалът също минават през escape за консистентност).
+$secondCurrencyCodeJs = $escaper->escapeJs($secondCurrencyCode);
+$jsLocaleJs = $escaper->escapeJs($jsLocale);
+$separatorJs = $escaper->escapeJs($separator);
+$exchangeRateJs = $escaper->escapeJs(
+    (string)(float)$storeConfig->getStoreConfig(Config::CONFIG_PATH_EXCHANGE_RATE)
+);
+?>
+<?php if ($jsLocale === 'bg-BG'): ?>
+    <script>
+        (() => {
+            const originalFormatPrice = hyva.formatPrice;
+
+            hyva.formatPrice = function (value, showSign, options = {}) {
+                let originalResult = originalFormatPrice.apply(this, arguments);
+
+                const secondCurrencyResult = calculateSecondCurrencyAmount(
+                    value,
+                    '<?= /* @noEscape */ $secondCurrencyCodeJs ?>'
+                ).toLocaleString('<?= /* @noEscape */ $jsLocaleJs ?>', {
+                    minimumFractionDigits: options.precision,
+                    maximumFractionDigits: options.precision,
+                    currency: '<?= /* @noEscape */ $secondCurrencyCodeJs ?>',
+                    style: 'currency'
+                });
+
+                if (originalResult.indexOf(secondCurrencyResult) > -1) {
+                    return originalResult;
+                }
+
+                if (originalResult.indexOf('<span class="price">') > -1) {
+                    return originalResult
+                        + '<span class="eurozone-price"><?= /* @noEscape */ $separatorJs ?>'
+                        + secondCurrencyResult + '</span>';
+                } else {
+                    return originalResult + '<?= /* @noEscape */ $separatorJs ?>' + secondCurrencyResult;
+                }
+            };
+
+            function calculateSecondCurrencyAmount(amount, currency) {
+                let exchangeRate = <?= /* @noEscape */ $exchangeRateJs ?>;
+                if (currency === 'BGN') {
+                    return amount * exchangeRate;
+                } else if (currency === 'EUR') {
+                    return amount / exchangeRate;
+                }
+            }
+        })()
+    </script>
+    <?php $hyvaCsp->registerInlineScript() ?>
+<?php endif ?>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright Copyright © 2024–2026 Webcode (https://webcode.bg/)
+ * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Directory\Model\PriceCurrency">
+        <plugin name="webcode-eurozoneprice-directory-model-price-currency-add-second-currency"
+                type="Webcode\EurozonePrice\Plugin\Directory\Model\PriceCurrencyPlugin"/>
+    </type>
+</config>

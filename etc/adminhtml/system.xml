@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author       Kostadin Bashev (bashev@webcode.bg)
+ * @copyright Copyright © 2024–2026 Webcode (https://webcode.bg/)
+ * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="currency" translate="label" sortOrder="520" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <group id="eurozone_price" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Eurozone Price</label>
+                <fieldset_css>webcode-section-config</fieldset_css>
+                <field id="pixel_id" translate="label comment" type="text" sortOrder="15" showInDefault="1"
+                       showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Currency Separator</label>
+                    <config_path>webcode_eurozoneprice/general/currency_separator</config_path>
+                    <!-- Keep the text on ONE line: Config's DOM converter does not trim, so a line break ends up in the msgid. -->
+                    <comment><![CDATA[Only text, default is '/', example: '|', '<->', 'или']]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

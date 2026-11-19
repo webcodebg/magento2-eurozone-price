@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright Copyright © 2024–2026 Webcode (https://webcode.bg/)
+ * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="webcode_eurozoneprice_convert_prices" xsi:type="object">Webcode\EurozonePrice\Console\Command\ConvertPricesToEuro</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Sales\Model\Order">
+        <plugin name="webcode-eurozoneprice-sales-model-add-second-currency"
+                type="Webcode\EurozonePrice\Plugin\Sales\Model\OrderPlugin"/>
+    </type>
+    <type name="Magento\Framework\Locale\Format">
+        <plugin name="webcode-eurozoneprice-bgn-group-length"
+                type="Webcode\EurozonePrice\Plugin\Locale\Format"
+                sortOrder="10"/>
+    </type>
+</config>

@@ -1,0 +1,15 @@
+<?php
+/*
+ * @copyright Copyright © 2024–2026 Webcode (https://webcode.bg/)
+ * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ *
+ * Loads the secondary-currency decorator on the Webcode_Checkout page. A plain
+ * same-origin <script src> (mirrors how Webcode_Checkout loads its own ES
+ * modules) — CSP-safe, no inline JS. The global it defines is read lazily by
+ * Webcode_Checkout's money() helper, so load order does not matter.
+ */
+
+/** @var Magento\Framework\View\Element\Template $block */
+/** @var Magento\Framework\Escaper $escaper */
+?>
+<script src="<?= $escaper->escapeUrl($block->getViewFileUrl('Webcode_EurozonePrice::js/webcode-checkout-price.js')) ?>"></script>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright Copyright © 2024–2026 Webcode (https://webcode.bg/)
+ * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Webcode_EurozonePrice">
+        <sequence>
+            <module name="Magento_Directory"/>
+            <module name="Magento_Store"/>
+            <module name="Magento_Config"/>
+            <module name="Magento_Catalog"/>
+        </sequence>
+    </module>
+</config>

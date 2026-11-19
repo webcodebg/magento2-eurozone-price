@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+  ~ @author       Kostadin Bashev (bashev@webcode.bg)
+  ~ @copyright Copyright © 2024–2026 Webcode (https://webcode.bg/)
+  ~ @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <webcode_eurozoneprice>
+            <general>
+                <exchange_rate>1.95583</exchange_rate>
+                <converted_to_euro>0</converted_to_euro>
+                <currency_separator>/</currency_separator>
+            </general>
+        </webcode_eurozoneprice>
+    </default>
+</config>
